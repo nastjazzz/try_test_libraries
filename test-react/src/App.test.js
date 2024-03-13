@@ -1,9 +1,14 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import App from './App';
 
 describe('app test', () => {
     test('check elems', () => {
-        render(<App />);
+        render(
+            <MemoryRouter>
+                <App />
+            </MemoryRouter>
+        );
         const helloWorldElem = screen.getByText(/hello world/i);
         const btnElem = screen.getByRole('button');
         const inputElem = screen.getByPlaceholderText(/input value/i);
@@ -15,19 +20,31 @@ describe('app test', () => {
     });
 
     test('absence of text', () => {
-        render(<App />);
+        render(
+            <MemoryRouter>
+                <App />
+            </MemoryRouter>
+        );
         const helloWorldElem = screen.queryByText(/hello2/i);
         expect(helloWorldElem).toBeNull();
     });
 
     test('findBy case', async () => {
-        render(<App />);
+        render(
+            <MemoryRouter>
+                <App />
+            </MemoryRouter>
+        );
         const dataElem = await screen.findByText(/data/i);
         expect(dataElem).toBeInTheDocument();
     });
 
     test('click event', () => {
-        render(<App />);
+        render(
+            <MemoryRouter>
+                <App />
+            </MemoryRouter>
+        );
         const btn = screen.getByTestId('toggle-btn');
         expect(btn).toBeInTheDocument();
 
@@ -39,7 +56,11 @@ describe('app test', () => {
     });
 
     test('input event', () => {
-        render(<App />);
+        render(
+            <MemoryRouter>
+                <App />
+            </MemoryRouter>
+        );
         const inputElem = screen.getByPlaceholderText(/input value/i);
         expect(screen.queryByTestId('input-value')).toContainHTML('');
         fireEvent.input(inputElem, {
