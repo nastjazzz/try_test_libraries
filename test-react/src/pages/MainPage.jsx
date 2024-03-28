@@ -1,9 +1,13 @@
-import {React} from 'react'
+import { React } from 'react';
+import Counter from '../components/Counter/Counter';
 
-const MainPage = () =>  {
+const MainPage = () => {
     return (
-        <div data-testid="main-page">Main page</div>
-    )
-}
+        <div data-testid='main-page'>
+            Main page
+            <Counter />
+        </div>
+    );
+};
 
 export default MainPage;

@@ -1,30 +1,26 @@
-import { render, screen, act } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
 import App from './App';
+import { renderTestApp } from './tests/helpers/renderTestApp';
 
 describe('TEST APP', () => {
     test('router test', async () => {
         const user = userEvent.setup();
 
-        render(
-            <MemoryRouter>
-                <App />
-            </MemoryRouter>
+        renderTestApp(
+            <App />,
+            {
+                initialState: {
+                    counter: {
+                        value: 10,
+                    },
+                },
+                initialRoute: ['/'],
+            },
+            false
         );
+
         const homeLink = screen.getByTestId('home-link');
-        const mainLink = screen.getByTestId('main-link');
-        const aboutLink = screen.getByTestId('about-link');
-
-        await act(async () => {
-            await user.click(aboutLink);
-        });
-        expect(screen.getByTestId('about-page')).toBeInTheDocument();
-
-        await act(async () => {
-            await user.click(mainLink);
-        });
-        expect(screen.getByTestId('main-page')).toBeInTheDocument();
 
         await act(async () => {
             await user.click(homeLink);
@@ -32,11 +28,67 @@ describe('TEST APP', () => {
         expect(screen.getByTestId('home-page')).toBeInTheDocument();
     });
 
+    test('about test', async () => {
+        const user = userEvent.setup();
+
+        renderTestApp(
+            <App />,
+            {
+                initialState: {
+                    counter: {
+                        value: 10,
+                    },
+                },
+                initialRoute: ['/'],
+            },
+            false
+        );
+
+        const aboutLink = screen.getByTestId('about-link');
+
+        await act(async () => {
+            await user.click(aboutLink);
+        });
+        expect(screen.getByTestId('about-page')).toBeInTheDocument();
+        // /screen.debug();
+    });
+
+    test('main test', async () => {
+        const user = userEvent.setup();
+
+        renderTestApp(
+            <App />,
+            {
+                initialState: {
+                    counter: {
+                        value: 10,
+                    },
+                },
+                initialRoute: ['/'],
+            },
+            false
+        );
+
+        const mainLink = screen.getByTestId('main-link');
+
+        await act(async () => {
+            await user.click(mainLink);
+        });
+        expect(screen.getByTestId('main-page')).toBeInTheDocument();
+    });
+
     test('error page test', async () => {
-        render(
-            <MemoryRouter initialEntries={['/ashaha']}>
-                <App />
-            </MemoryRouter>
+        renderTestApp(
+            <App />,
+            {
+                initialState: {
+                    counter: {
+                        value: 0,
+                    },
+                },
+                initialRoute: ['/ashaha'],
+            },
+            false
         );
 
         expect(screen.getByTestId('no-match-page')).toBeInTheDocument();
